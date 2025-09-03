@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <strong>Navegação</strong>
 
       <a href="{% url 'index' %}" 
-         class="{% if request.resolver_match.url_name == '/' %}active{% endif %}">
+         class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
         <i class="bi bi-speedometer2"></i> Dashboard
       </a>
 
