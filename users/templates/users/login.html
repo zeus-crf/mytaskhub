@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Login - MyTaskHub</title>
+</head>
+<body>
+<header class="header">
+    <h2><i class="bi bi-check2-square"></i> MyTaskHub</h2>
+    <nav class="navegacao">
+        <li>É novo por aqui? 
+            <a href="{% url 'register' %}">
+                <button class="btn-criar-conta">Criar Conta</button>
+            </a>
+        </li>
+    </nav>
+</header>
+
+<main class="main">
+    <div>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            
+            <h1>Seja Bem-Vindo(a) de Novo!</h1>
+
+            <!-- Erros gerais do login -->
+            {% if form.non_field_errors %}
+                <div class="error">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Input username -->
+            <div class="form-group">
+                <input type="text" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}" required>
+                <label for="username">Login</label>
+                <i class="bi bi-envelope-fill"></i>
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Input password -->
+            <div class="form-group">
+                <input type="password" name="password" id="password" required>
+                <label for="password">Senha</label>
+                <i class="bi bi-lock-fill"></i>
+                <span class="input-group-text icon-password"> 
+                    <i class="bi bi-eye" id="iconSenha" onclick="toggleSenha()"></i>
+                </span>
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Botões e links -->
+            <div class="case-btn">
+                <button type="submit">Entrar</button>
+                <input type="hidden" name="next" value="{% url 'index' %}">
+                <div style="border: 0.7px solid #56545473; width: 80%; margin:10px 0;"></div>
+                <div>
+                    <p>É novo por aqui?</p>
+                    <a href="{% url 'register' %}">Cadastrar</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+<script src="{% static 'users/js/script.js' %}"></script>
+</body>
+</html>

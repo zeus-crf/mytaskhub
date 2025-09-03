@@ -1,0 +1,57 @@
+{% extends "mytaskhubs/base.html" %}
+{% load static %}
+
+{% block content %}
+<h2 class="titulo-pagina">
+  {% if project %}
+    Nova tarefa para {{ project.title }}
+  {% else %}
+    Nova Task independente
+  {% endif %}
+</h2>
+
+<main class="main_new_task-new_project">
+  <form method="post" class="form-new-task" action="{% if project %}{% url 'new_task' project.id %}{% else %}{% url 'new_task_no_project' %}{% endif %}">
+    {% csrf_token %}
+
+    <!-- Campo Título -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Nova Task:</label>
+      <input type="text" 
+             name="title" 
+             id="title" 
+             class="form-control {% if form.title.errors %}is-invalid{% endif %}" 
+             value="{{ form.title.value|default_if_none:'' }}" 
+             required>
+      {% if form.title.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.title.errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Campo Descrição -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Descrição da Task:</label>
+      <textarea name="description" 
+                id="description" 
+                class="form-control {% if form.description.errors %}is-invalid{% endif %}" 
+                rows="3" 
+                required></textarea>
+      {% if form.description.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.description.errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="box-button">
+    <button type="submit">Salvar</button>
+    </div>
+  </form>
+</main>
+{% endblock content %}

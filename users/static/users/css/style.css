@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1); /* leve transparência */
+
+}
+
+.header h2 {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6f4ef2;
+}
+
+.navegacao li {
+    list-style: none; 
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.2rem;
+    color: #565454  ;
+    
+}
+
+.btn-criar-conta {
+    border: none;
+    padding: 0.75rem 1.5rem; /* mais espaço interno */
+    font-size: 1.1rem;       /* texto maior */
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(111, 78, 242, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-criar-conta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(111, 78, 242, 0.7);
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* espaço abaixo do header */
+}
+
+/* Evita quebra do h2 */
+.header h2 {
+    font-size: 2rem; /* aumenta tamanho */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6f4ef2;
+    white-space: nowrap; /* impede quebra de linha */
+}
+
+/* Formulário mais largo */
+form {
+    background: #fff;
+    padding: 3rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 450px;
+    transition: transform 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-5px);
+}
+
+form h1{
+    text-align: center; 
+    color: #6f4ef2; 
+    margin-bottom: rem; 
+}
+/* Botão maior */
+form button {
+    padding: 1rem 2rem; /* mais alto e largo */
+    font-size: 1.2rem;  /* texto maior */
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(111,78,242,0.5);
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(111,78,242,0.7);
+}
+.form-group {
+    position: relative;   /* permite que filhos (label, ícone) usem position absolute */
+    display: flex;
+    flex-direction: column-reverse; /* label fica depois do input no HTML, mas aparece acima visualmente */
+    gap: 0.2rem;
+    width: 100%;
+    padding: 1rem 1rem 0.5rem 1rem; 
+    border: 1.5px solid #ccc;   /* borda que simula a do input */
+    border-radius: 8px;
+    font-size: 1.05rem;
+    transition: border-color 0.3s ease;
+}
+
+
+
+.form-group input {
+    width: 100%;
+    padding: 0.5rem 0.5rem 1rem 2rem; /* espaço extra à direita p/ não sobrepor o ícone */
+    border: none; /* usa a borda do .form-group */
+    font-size: 1.05rem;
+    outline: none;
+    outline: none;
+}
+
+
+.form-group input:focus {
+    border-color: #6f4ef2;
+}
+
+.form-group:focus {
+    border-color: #6f4ef2;
+}
+
+.form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%); /* centraliza verticalmente */
+    background: #fff; /* deixa o fundo branco para "cortar" a borda quando sobe */
+    padding: 0 0.25rem;
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none; /* impede clique no label */
+    transition: all 0.3s ease;
+}
+
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+    top: -0.2rem;
+    font-size: 0.85rem;
+    color: #6f4ef2;
+}
+
+.form-group i {
+    position: absolute; /* deixa o filho dentro do pai */
+    left: 1rem;  /* ícone encostado à esquerda */
+    top: 50%;
+    transform: translateY(-50%); /* centraliza verticalmente */
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.icon-password{
+    position: absolute; /* absolute pq é filho */
+    right: 3.5rem; /* para ficar do lado direito do input*/
+    top: 50%; /* para ficar centralizado */
+    transform: translateY(-50%); /* centraliza verticalmente */
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.form-group i:hover , .icon-password:hover  {
+    color: #6f4ef2;
+}
+
+.case-btn{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.case-btn div {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.case-btn div > a{
+    text-decoration: none;
+    color: #6f4ef2;
+    transition: 0.3s ease-in-out;
+}
+
+.case-btn div > a:hover{
+    border-bottom: 1.5px solid #6f4ef2;
+    transform: translateY(-20%);
+}
+
+.case-btn div > p{
+    color: #565454;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+

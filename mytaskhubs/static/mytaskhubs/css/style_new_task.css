@@ -1,0 +1,94 @@
+body{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.main_new_task-new_project {
+    display: flex;
+    justify-content: center; /* horizontal */
+    align-items: center;     /* vertical */
+    min-height: calc(100vh - 15rem); /* já tinha */
+    width: 100%;
+    padding: 2rem; /* opcional para espaçamento interno */
+    box-sizing: border-box;
+}
+
+
+.main_new_entry-edit_entry{
+    display: flex;
+    justify-content: center; /* horizontal */
+    align-items: center;     /* vertical */
+    min-height: calc(100vh - 35rem); /* já tinha */
+    width: 100%;
+    padding: 2rem; /* opcional para espaçamento interno */
+    box-sizing: border-box;
+}
+
+.form-new-task {
+    background: #fff;
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 16px;
+    border: 1px solid #6f4ef2 ;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 80%;
+    transition: transform 0.3s ease;
+    
+}
+
+.form-new-entry-edit_entry{
+    background: #fff;
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 16px;
+    border: 1px solid #6f4ef2 ;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 60%;
+    transition: transform 0.3s ease;
+}
+
+.form-new-task:hover, .form-new-entry-edit_entry:hover {
+    transform: translateY(-5px);
+}
+
+.box-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Botão maior */
+.box-button button {
+    padding: 1rem 2rem; 
+    font-size: 1.2rem;  
+    font-weight: bold;
+    border: none;
+    width: 80%;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(111,78,242,0.5);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;      /* centraliza vertical */
+    justify-content: center;  /* centraliza horizontal */
+    text-align: center;       /* não é necessário com flex, mas pode ficar */
+}
+.box-button button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(111,78,242,0.7);
+}
+
+.form-control{
+    border: 1px solid #8174b7;
+}
+
+.titulo-pagina{
+    text-align: center; 
+    color: #6f4ef2; 
+    margin-bottom: rem;
+    font-family: 'Montserrat', sans-serif; /* para títulos */
+}

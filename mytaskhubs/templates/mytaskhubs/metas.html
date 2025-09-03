@@ -1,0 +1,15 @@
+{% extends "mytaskhubs/base.html" %}
+
+
+{% block content %}
+    <h1>Lista de Metas</h1>
+    <ul>
+    {% for meta in metas %}
+        <li><a href="{% url 'meta' meta.id %}">{{ meta.title }}</a></li>
+    {% empty %}
+        <li>Nenhuma meta cadastrada.</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'new_meta' %}">Adicionar nova meta</a>
+{% endblock content %}
+

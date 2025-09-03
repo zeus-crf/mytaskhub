@@ -1,0 +1,32 @@
+{% extends "mytaskhubs/base.html" %}
+{% load static %}
+{% block content %}
+
+    <a href="{% url 'task' task.id %}"><h5>{{ task.text.title }}</h5></a>
+    <h2 class="titulo-pagina">Adicione uma nova descrição</h2>
+    <main class="main_new_entry-edit_entry">
+    <form action="{% url 'new_entry' task.id %}" class="form-new-entry-edit_entry" method="post">
+         {% csrf_token %}
+      <div class="mb-3">
+      <label for="{{ form.title.id_for_label }}" class="form-label">Editar descrição:</label>
+      <input type="text"
+       name="{{ form.title.html_name }}"
+       id="{{ form.title.id_for_label }}"
+       class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+       value="{{ form.title.value|default:'' }}"
+       required>
+      {% if form.title.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.title.errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="box-button">
+    <button type="submit">Salvar</button>
+    </div>
+    </form>
+    </main>
+
+{% endblock content %}

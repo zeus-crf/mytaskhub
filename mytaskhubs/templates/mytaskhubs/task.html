@@ -1,0 +1,50 @@
+{% extends "mytaskhubs/base.html" %}
+
+{% block content %}
+    <main class="main-task">
+    <div class="card-head-task">
+    <div class="card-head-task-child-1" data-prio="{{ task.prioridade }}">
+    <h3>{{ task.title }}</h3>
+    <div class="prioridade 
+     {% if task.prioridade == 'A' %} alta 
+     {% elif task.prioridade == 'M' %} media 
+     {% elif task.prioridade == 'B' %} baixa 
+     {% endif %}">
+    <p class="card-text"> Prioridade: {{ task.get_prioridade_display }}</p>
+    </div>
+    </div>
+    <p class="type-title">(Task)</p>
+    <div class="card-head-task-child-2">
+        <p><i class="bi bi-calendar"></i> {{ task.date_added }}</p>
+        <p><i class="bi bi-person"></i> {{ task.owner }}</p>
+    </div>
+    </div>
+    
+
+    <div class="card-body-entry">
+    <div class="card-body-entry-child-1">
+    <h4>Anotações:</h4>
+    <a href="{% url 'new_entry' task.id %}" class="btn-entry" >Adicionar anotações</a>
+    </div>
+    <ul class="list-entry">
+        
+        {% for entry in entries %}
+            <li class="entry">
+                <p>{{ entry.title | linebreaks }}</p><!--Quebra as linhas quando for necessário-->
+                <div class="card-body-entry-child-2">
+                <p><i class="bi bi-calendar"></i> {{ entry.date_added | date:'M d, Y H:i'}}</p><!--Formata a data -->
+                <p><i class="bi bi-person"></i> {{ task.owner }}</p>
+                <a href="{% url 'edit_entry' entry.id %}"><i class="bi bi-pencil-square"></i> </a>
+                </div>
+                
+            </li>
+        {% empty %}
+            <li>Não há entradas adicionadas.</li>
+        {% endfor %}
+    </ul>
+    </div>
+    </div>
+    </div>
+</main>
+
+{% endblock content %}

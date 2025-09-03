@@ -1,0 +1,50 @@
+.card-body-status-tasks{
+    display: flex;
+    flex-direction: column;
+}
+
+.title-task{
+    display: flex;
+    flex-direction: column;
+}
+
+.prioridade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.236);
+    border-radius: 12px;
+    max-height: 3rem;
+    padding: 5px;
+
+}
+.alta {
+  background-color: rgba(220, 53, 69, 0.8); /* vermelho */
+  color: white;
+}
+
+.media {
+  background-color: rgba(255, 193, 7, 0.8); /* amarelo */
+  color: white;
+}
+
+.baixa {
+  background-color: rgba(40, 167, 69, 0.8); /* verde */
+  color: white;
+}
+
+.prioridade p {
+  width: 100%;
+  text-align: center;
+  margin: 0; /* remove espaço extra */
+  padding: 0 0.5rem 0 0.5rem;
+  font-size: small;
+  font-weight: bolder;
+}
+
+.lista{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}

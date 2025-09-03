@@ -1,0 +1,52 @@
+{% extends "mytaskhubs/base.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-task">
+    <div class="card-head-task">
+    <div class="card-head-task-child-1">
+    <h3>{{ project.title }}</h3>
+    </div>
+    <p class="type-title">(Projeto)</p>
+    <div class="card-head-task-child-2">
+        <p><i class="bi bi-calendar"></i> {{ project.date_added }}</p>
+        <p><i class="bi bi-person"></i> {{ project.owner }}</p>
+    </div>
+    </div>
+    
+
+    <div class="card-body-entry">
+    <div class="card-body-entry-child-1">
+    <h4>Tasks:</h4>
+    <a href="{% url 'new_task' project.id %}" class="btn-entry" >Adicionar Tasks</a>
+    </div>
+    <ul class="list-entry">
+        
+        {% for task in tasks %}
+            
+            <li class="task-project">
+                <div class="body">
+                <h6 class="title-task"">{{ task.title }}</h6><!--Quebra as linhas quando for necessário-->
+                <div class="card-body-entry-child-2">
+                <p><i class="bi bi-calendar"></i> {{ task.date_added | date:'M d, Y H:i'}}</p><!--Formata a data -->
+                <p><i class="bi bi-person"></i> {{ task.owner }}</p>
+                <a class="link-task" href="{% url 'task' task.id %}"><i class="bi bi-three-dots"></i></a>
+                </div>
+                </div>
+                <div class="prioridade 
+                {% if task.prioridade == 'A' %} alta 
+                {% elif task.prioridade == 'M' %} media 
+                {% elif task.prioridade == 'B' %} baixa 
+                {% endif %}">
+                <p class="card-text"> Prioridade: {{ task.get_prioridade_display }}</p>
+                </div>
+            </li>
+        {% empty %}
+            <li>Não há tasks adicionadas.</li>
+        {% endfor %}
+    </ul>
+    </div>
+    </div>
+    </div>
+</main>
+
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "mytaskhubs/base.html" %}
+{% block content %}
+    <h4>Adicionar nova tarefa:</h4>
+  <form method="post" action="{% url 'add_task_to_meta' meta.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Adicionar</button>
+  </form>
+{% endblock %}

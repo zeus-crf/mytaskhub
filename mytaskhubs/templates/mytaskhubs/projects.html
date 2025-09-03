@@ -1,0 +1,159 @@
+{% extends "mytaskhubs/base.html" %}
+{% load static %}
+{% block content %}
+
+<h2 class="titulo-pagina">Seus Projetos</h2>
+
+<!-- Mensagens / Toasts -->
+{% if messages %}
+  <div id="toast-container">
+    {% for message in messages %}
+      <div class="toast toast-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="btn-and-filter">
+
+<div class="filters">
+<label for="">Filtrar Projetos:</label>
+<div class="filter-main">
+<div class="filter-container">
+  <select id="projectFilter" class="filter-select form-select">
+    <option value="all">Todos</option>
+    <option value="active">Em andamento</option>
+    <option value="completed">Concluídos</option>
+    <option value="archived">Arquivados</option>
+  </select>
+</div>
+
+<div class="filter-container">
+  <select id="projectFilter2" class="filter-select form-select">
+  <option value="date-desc">Mais recentes</option>
+  <option value="date-asc">Mais antigos</option>
+  <option value="tasks-desc">Mais tasks</option>
+  <option value="tasks-asc">Menos tasks</option>
+</select>
+</div>
+
+<div class="filter-container">
+  <select id="projectFilter3" class="filter-select form-select">
+  <option value="cards">Cards</option>
+  <option value="lista">Lista</option>
+</select>
+</div>
+
+
+</div>
+</div>
+
+<a href="{% url 'new_project' %}" class="btn">Adicionar Projeto</a>
+
+</div>
+
+<main class="main" id="projectsContainer">
+{% for project in projects %}
+<div class="card" 
+     data-status="{% if project.deleted %}archived{% elif project.completed %}completed{% else %}active{% endif %}"
+     data-tasks="{{ project.project_tasks.count }}"
+     data-date="{{ project.date_added|date:'Y-m-d H:i:s' }}">
+     
+  <div class="card-header">
+    <h4>{{ project.title }}</h4>
+  </div>
+
+  <div class="card-body">
+    <p class="card-text">{{ project.description }}</p>
+    
+    <div class="card-body-status">
+      <p><i class="bi bi-bullseye"></i> {{ project.project_tasks.count }} tasks</p>
+      {% if project.completed %}
+        <p><i class="bi bi-calendar-check"></i> Concluído</p>
+      {% elif project.deleted %}
+        <p><i class="bi bi-archive"></i> Arquivado</p>
+      {% else %}
+        <p><i class="bi bi-calendar"></i> Em Andamento</p>
+      {% endif %}
+    </div>
+
+    <div class="card-body-status-button">
+      <!-- Botão Detalhes sempre visível -->
+      <a href="{% url 'project' project.id %}" class="btn">
+        Detalhes <i class="bi bi-arrow-right-short"></i>
+      </a>
+
+      <div class="card-body-status_conclude-close">
+        <!-- Concluir: só aparece se não concluído nem arquivado -->
+        {% if not project.completed and not project.deleted %}
+          <form action="{% url 'concluir_project' project.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn-concluir" type="submit" title="Concluir Projeto">
+              <i class="bi bi-toggle-off"></i>
+            </button>
+          </form>
+        {% endif %}
+
+        <!-- Projeto concluído -->
+        {% if project.completed %}
+          <a href="{% url 'project' project.id %}" class="btn-concluido" title="Projeto Concluído">
+            <i class="bi bi-toggle-on"></i>
+          </a>
+        {% endif %}
+
+        <!-- Arquivar: só se não arquivado -->
+        {% if not project.deleted %}
+          <button class="btn-delete" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#confirmArchiveModal"
+                  data-url="{% url 'arquivar_project' project.id %}"
+                  title="Arquivar Projeto"> 
+            <i class="bi bi-x-lg"></i>
+          </button>
+        {% endif %}
+
+        <!-- Reativar: só se arquivado -->
+        {% if project.deleted %}
+          <form action="{% url 'ativar_project' project.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn-warning" type="submit" title="Reativar Projeto">
+              <i class="bi bi-arrow-counterclockwise"></i> 
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% empty %}
+<p>Nenhum Projeto foi adicionado</p>
+{% endfor %}
+</main>
+
+
+<!-- Modal de confirmação de arquivamento -->
+<div class="modal fade" id="confirmArchiveModal" tabindex="-1" aria-labelledby="confirmArchiveLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmArchiveLabel"><i class="bi bi-exclamation-triangle-fill"></i> Confirmar Ação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza que deseja arquivar este projeto?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form id="archiveForm" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-success">Sim, arquivar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

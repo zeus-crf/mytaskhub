@@ -1,0 +1,283 @@
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.card {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    background-color: white;
+    box-shadow: 0 10px 20px #8174b7;
+    transition: 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5%);
+}
+
+.card-header {
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.card-header h4 {
+    color: white;
+}
+
+.card-body p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.545);
+}
+
+.card-body-status {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.card-body-status-button {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* -------------------- BOTÕES -------------------- */
+.btn, .btn-concluir, .btn-delete, .btn-concluido, .btn-entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(111,78,242,0.5);
+}
+
+/* Botão azul - "ver detalhes" */
+.btn {
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    padding: 0.6rem 1.5rem;
+    width: 40%;
+    
+}
+
+.btn:hover, .btn-entry:hover {
+    transform: translateY(-10%);
+    background-color: #5a3ed1;
+    box-shadow: 0 10px 20px rgba(111,78,242,0.7);
+    color: white;
+}
+
+.btn:hover > .bi-arrow-right-short {
+    transform: translateX(25%);
+}
+
+.btn-entry, .btn-dashboard{
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    padding: 0.6rem 1.5rem;
+    width: 20%;
+}
+/* --- Botões da direita (mesmo tamanho sempre) --- */
+.btn-concluir, .btn-concluido, .btn-delete, .btn-secondary, .btn-success, .btn-warning {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Verde - concluir */
+.btn-concluir {
+    background-color: #4CAF50;
+
+}
+
+.btn-concluir:hover {
+    transform: translateY(-10%);
+    background-color: rgb(0, 139, 16);
+    box-shadow: 0 10px 20px rgba(72, 255, 0, 0.7);
+}
+
+/* Verde escuro - concluído */
+.btn-concluido {
+    background-color: rgb(0, 139, 16);
+}
+
+.btn-concluido:hover {
+    transform: translateY(-10%);
+    background-color: #006400;
+    box-shadow: 0 10px 20px rgba(72, 255, 0, 0.7);
+}
+
+/* Vermelho - deletar */
+.btn-delete {
+    background-color: #f44336;
+}
+
+.btn-delete:hover {
+    transform: translateY(-10%);
+    background-color: rgb(139, 0, 0);
+    box-shadow: 0 10px 20px rgba(255, 25, 0, 0.7);
+}
+
+.btn-secondary{
+    background: linear-gradient(90deg, #6f4ef2, #8174b7);
+    padding: 0.75rem 1.5rem;
+    color: white;
+    width: 30%;
+}
+
+.btn-success{
+   background-color: #f21607;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    width: 100%;
+}
+
+.btn-warning{
+    background-color: #f4d136;
+    color: white;
+    transition: 0.3s ease-in;
+}
+
+.btn-warning:hover{
+    transform: translateY(-10%);
+    background-color: rgb(139, 116, 0);
+    box-shadow: 0 10px 20px rgba(255, 238, 0, 0.7);
+}
+
+.btn-warning > i {
+  transition: transform 0.4s ease-in-out; /* animação suave */
+}
+
+.btn-warning:hover > i {
+  transform: rotate(-360deg); /* gira 360 graus */
+  
+}
+
+
+.modal-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Container dos botões concluir/excluir */
+.card-body-status_conclude-close {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* remove espaçamento do form */
+.card-body-status_conclude-close form {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ícones */
+.bi-arrow-right-short {
+    color: white;
+    font-size: 1.5rem;
+    transition: 0.3s ease-in;
+}
+
+/* Remove estilo default de <a> dentro dos botões */
+.btn a, .btn-concluir a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.modal-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container fixo */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Toast padrão */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  min-width: 220px;
+  max-width: 350px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Tipos de toast */
+.toast-success { background-color: #28a745; }
+.toast-error   { background-color: #dc3545; }
+.toast-info    { background-color: #17a2b8; }
+.toast-warning { background-color: #ffc107; color: black; }
+
+/* Mostrar com animação */
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.filter-label{
+    padding-bottom: 0.5rem;
+}
+ .form-select{
+    width: 30%;
+}
+
+.filter-select{
+    width: 100%;
+}
+
+.btn-and-filter{
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filters{
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-main{
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+}

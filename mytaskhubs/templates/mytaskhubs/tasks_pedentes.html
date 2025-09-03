@@ -1,0 +1,122 @@
+{% extends "mytaskhubs/base.html" %}
+
+{% block content %}
+<h2 class="titulo-pagina">Tasks Pendentes</h2>
+<div class="filters">
+
+<label for="">Filtrar Tasks:</label>
+
+<div class="filter-main">
+
+<div class="filter-container">
+    <select id="taskFilter" class="filter-select form-select">
+      <option value="all">Todas</option>
+      <option value="active">Em andamento</option>
+      <option value="archived">Arquivadas</option>
+    </select>
+</div>
+
+<div class="filter-container">
+   <select id="taskFilter2" class="filter-select form-select">
+      <option value="data-desc">Mais recentes</option>
+      <option value="data-asc">Mais antiga</option>
+      <option value="prio-desc">Maior prioridade</option>
+      <option value="prio-asc">Menor prioridade</option>
+   </select>
+</div>
+
+<div class="filter-container">
+   <select id="taskFilter3" class="filter-select form-select">
+      <option value="cards">Cards</option>
+      <option value="lista">Lista</option>
+   </select>
+</div>
+
+</div>
+</div>
+<main class="main" id="tasksContainer">
+{% for task in tasks %}
+  <div class="card"
+  data-status="{% if task.deleted %}archived{% elif task.completed %}completed{% else %}active{% endif %}"
+  data-date="{{ task.date_added|date:'Y-m-d H:i:s' }}"
+  data-prio="{{ task.prioridade }}">
+  
+    <div class="card-header">
+      <div class="title-task">
+      <h4>{{ task.title|truncatewords:3 }}</h4>
+        {% if task.project %}
+      <p><i class="bi bi-folder2"></i> Projeto: {{ task.project.title }}</p>
+          {% elif task.meta %}
+      <p><i class="bi bi-bullseye"></i> Meta: {{ task.meta.text|truncatewords:5  }}</p>
+        {% else %}
+      <p><i class="bi bi-person"> </i> Independente</em></p>
+        {% endif %}
+      </div>
+
+    <div class="prioridade 
+     {% if task.prioridade == 'A' %} alta 
+     {% elif task.prioridade == 'M' %} media 
+     {% elif task.prioridade == 'B' %} baixa 
+     {% endif %}">
+    <p> Prioridade: {{ task.get_prioridade_display }}</p>
+    </div>
+    </div>
+
+    <div class="card-body">
+    
+
+    <div class="card-body-status-tasks">
+    <p>Descrição: {{ task.description|truncatewords:100 }}</p>
+    <p> Criada em: {{ task.date_added }}</p>
+    </div>
+
+    <div class="card-body-status-button">
+      <!-- Botão Detalhes sempre visível -->
+      <a href="{% url 'task' task.id %}" class="btn">
+        Detalhes <i class="bi bi-arrow-right-short"></i>
+      </a>
+
+      <div class="card-body-status_conclude-close">
+        <!-- Concluir: só aparece se não concluído nem arquivado -->
+        {% if not task.completed and not task.deleted %}
+          <form action="{% url 'concluir_task' task.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn-concluir" type="submit" title="Concluir Task">
+              <i class="bi bi-toggle-off"></i>
+            </button>
+          </form>
+        {% endif %}
+
+        <!-- Task concluída -->
+        {% if task.completed %}
+          <a href="{% url 'task' task.id %}" class="btn-concluido" title="Task Concluída">
+            <i class="bi bi-toggle-on"></i>
+          </a>
+        {% endif %}
+
+        <!-- Arquivar: só se não arquivado -->
+        {% if not task.deleted %}
+        <form action="{% url 'arquivar_task' task.id %}" method="post">
+           {% csrf_token %}
+          <button class="btn-delete" title="Arquivar Task"> 
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </form>
+        {% endif %}
+
+        <!-- Reativar: só se arquivado -->
+        {% if task.deleted %}
+          <form action="{% url 'ativar_task' task.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn-warning" type="submit" title="Reativar Task">
+              <i class="bi bi-arrow-counterclockwise"></i> 
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</main>
+{% endblock content %}
