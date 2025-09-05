@@ -1,15 +1,15 @@
 {% extends "mytaskhubs/base.html" %}
 
 {% block content %}
-  <h2>{{ meta.title }}</h2>
-  <p>{{ meta.description }}</p>
-  <p><strong>Prazo final:</strong> {{ meta.duration|date:"d/m/Y H:i" }}</p>
+  <h2>{{ goal.title }}</h2>
+  <p>{{ goal.description }}</p>
+  <p><strong>Prazo final:</strong> {{ goal.end_date|date:"d/m/Y H:i" }}</p>
 
   <!-- Formulário para marcar tarefas como concluídas -->
-  <form method="post" action="{% url 'meta' meta.id %}">
+  <form method="post" action="{% url 'goal' goal.id %}">
     {% csrf_token %}
     <ul style="list-style: none; padding: 0;">
-      {% for task in meta.tasks.all %}
+      {% for task in goal.tasks.all %}
         <li style="margin-bottom: 8px;">
           <label>
             <input type="checkbox" name="task_{{ task.id }}" {% if task.completed %}checked{% endif %} onchange="this.form.submit()">
@@ -21,13 +21,13 @@
       {% endfor %}
     </ul>
   </form>
-    <h4>Progresso:</h4>
+
+  <h4>Progresso:</h4>
   <div style="margin-bottom: 10px;">
-    <progress value="{{ meta.progress }}" max="100" style="width: 100%; height: 20px;"></progress>
-    <p>{{ meta.progress }}% concluído</p>
+    <progress value="{{ goal.progress }}" max="100" style="width: 100%; height: 20px;"></progress>
+    <p>{{ goal.progress }}% concluído</p>
   </div>
-<a href="{% url 'add_task_to_meta' meta.id %}">Adicionar nova task</a>
 
-
+  <a href="{% url 'add_task_to_goal' goal.id %}">Adicionar nova task</a>
 
 {% endblock %}

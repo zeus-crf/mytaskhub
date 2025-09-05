@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-
 class Project(models.Model):
     """Um Projeto que pode conter várias tarefas"""
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -15,12 +14,14 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-class Meta(models.Model):
+
+class Goal(models.Model):
+    """Representa uma meta (antes chamada de Meta)"""
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)  # corrigido: CharField precisa de max_length
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, default="Sem descrição")
     date_added = models.DateTimeField(auto_now_add=True)
-    duration = models.DateTimeField()  # Duração da meta 
+    end_date = models.DateTimeField(default=timezone.now)  # 🔹 Data limite da meta
     completed = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
@@ -30,15 +31,18 @@ class Meta(models.Model):
         concluidas = self.tasks.filter(completed=True).count()
         return int((concluidas / total) * 100) if total > 0 else 0
 
+    @property
+    def is_expired(self):
+        return self.end_date < timezone.now()
+
 
 class Task(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    meta = models.ForeignKey(Meta, related_name='tasks', on_delete=models.CASCADE, blank=True, null=True)
+    goal = models.ForeignKey(Goal, related_name='tasks', on_delete=models.CASCADE, blank=True, null=True)
     project = models.ForeignKey(Project, null=True, blank=True, on_delete=models.CASCADE, related_name='project_tasks')
 
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, default="Sem descrição")
-
     completed = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False)
@@ -51,14 +55,13 @@ class Task(models.Model):
     prioridade = models.CharField(max_length=1, choices=PRIORIDADE_CHOICES, default='M')
 
     def __str__(self):
-        # Retorna os primeiros 10 caracteres do texto da task
         return self.title[:10] + ('...' if len(self.title) > 10 else '')
 
 
 class Entry(models.Model):
     """Algo específico sobre cada Task"""
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    title = models.TextField()  # mantido TextField conforme original
+    title = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False)
 

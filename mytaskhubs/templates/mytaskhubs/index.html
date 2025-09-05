@@ -48,7 +48,7 @@
             </div>
         </a>
 
-        <a href="{% url 'metas' %}" class="dashboard_tasks">
+        <a href="{% url 'goals' %}" class="dashboard_tasks">
             <div class="dashboard_tasks_2">
                 <h5>Metas</h5>
                 <h2>{{ metas }}</h2>
@@ -70,10 +70,10 @@
                 <strong><a href="{% url 'task' task.id %}">{{ task.title }}</a></strong>
                 {% if task.project %}
                     <p><i class="bi bi-folder2"></i> Projeto: {{ task.project.title }}</p>
-                {% elif task.meta %}
-                    <p><i class="bi bi-bullseye"></i> Meta: {{ task.meta.title }}</p>
+                {% elif task.goal %}
+                    <p><i class="bi bi-bullseye"></i> Meta: {{ task.goal.title }}</p>
                 {% else %}
-                    <p><i class="bi bi-person"></i> Independente: {{task.title}}</p>
+                    <p><i class="bi bi-person"></i> Independente: {{ task.title }}</p>
                 {% endif %}
                 <small class="data-criacao">
                     <i class="bi bi-calendar-date"></i> {{ task.date_added|date:"d/m/Y H:i" }}

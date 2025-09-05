@@ -1,31 +1,37 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('tasks', views.tasks, name='tasks'),
-    path('task/<task_id>/', views.task, name='task'),#Busca a task através do id do bando de dados
-    path('new_task/<project_id>/', views.new_task, name='new_task'),
+    path('task/<int:task_id>/', views.task, name='task'),
+    path('new_task/<int:project_id>/', views.new_task, name='new_task'),
     path('new_task/', views.new_task_no_project, name='new_task_no_project'),
-    path('new_entry/<task_id>', views.new_entry, name='new_entry'),
-    path('edit_entry/<entry_id>', views.edit_entry, name='edit_entry'),
+    path('new_entry/<int:task_id>/', views.new_entry, name='new_entry'),
+    path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
+    
     path('projects', views.projects, name='projects'),
     path('new_project/', views.new_project, name='new_project'),
-    path('project/<project_id>/', views.project, name='project'),
-    path('meta/', views.metas, name='metas'),   
-    path('meta/<int:meta_id>/', views.meta, name='meta'),
-    path('new_meta/', views.new_meta, name = 'new_meta'),
-    path('add_task_to_meta/<meta_id>/', views.add_task_to_meta, name='add_task_to_meta'),
+    path('project/<int:project_id>/', views.project, name='project'),
+    
+    # URLs atualizadas para Goal
+    path('goals/', views.goals, name='goals'),
+    path('goal/<int:goal_id>/', views.goal, name='goal'),
+    path('new_goal/', views.new_goal, name='new_goal'),
+    path('add_task_to_goal/<int:goal_id>/', views.add_task_to_goal, name='add_task_to_goal'),
+    path('goal/concluir/<int:goal_id>/', views.concluir_goal, name='concluir_goal'),
+    path('goals/<int:goal_id>/arquivar/', views.arquivar_goal, name='arquivar_goal'),
+    path('goals/<int:goal_id>/ativar/', views.ativar_goal, name='ativar_goal'),
+
+    # Concluir/arquivar/ativar projetos e tasks
     path('task/concluir/<int:task_id>/', views.concluir_task, name='concluir_task'),
     path('project/concluir/<int:project_id>/', views.concluir_project, name='concluir_project'),
-    path('meta/concluir/<int:meta_id>/', views.concluir_meta, name='concluir_meta'),
     path('projects/<int:project_id>/arquivar/', views.arquivar_project, name='arquivar_project'),
     path('tasks/<int:task_id>/arquivar/', views.arquivar_task, name='arquivar_task'),
-    path('metas/<int:meta_id>/arquivar/', views.arquivar_meta, name='arquivar_meta'),
-    path('metas/<int:meta_id>/ativar/', views.ativar_meta, name='ativar_meta'),
     path('projects/<int:project_id>/ativar/', views.ativar_project, name='ativar_project'),
     path('tasks/<int:task_id>/ativar/', views.ativar_task, name='ativar_task'),
+
+    # Filtros e calendário
     path('tasks_concluidas/', views.tasks_concluidas, name='tasks_concluidas'),
     path('tasks_pendentes/', views.tasks_pendentes, name='tasks_pendentes'),
     path('calendario_tasks/', views.calendario_tasks, name='calendario_tasks'),

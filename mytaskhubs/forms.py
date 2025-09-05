@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Entry, Project, Meta
+from .models import Task, Entry, Project, Goal  # 🔹 alterado de Meta para Goal
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -19,11 +19,11 @@ class EntryForm(forms.ModelForm):
         labels = {'title': ''}
         widgets = {'title': forms.Textarea(attrs={'cols':80})}
 
-class MetaForm(forms.ModelForm):
+class GoalForm(forms.ModelForm):  # 🔹 alterado de MetaForm para GoalForm
     class Meta:
-        model = Meta
-        fields = ['title', 'description', 'duration'] 
-        labels = {'title': 'Texto', 'description': 'Descrição', 'duration': 'Duração'}
+        model = Goal  # 🔹 alterado de Meta para Goal
+        fields = ['title', 'description', 'end_date']  # 🔹 end_date substitui duration
+        labels = {'title': 'Texto', 'description': 'Descrição', 'end_date': 'Data Limite'}
         widgets = {
-            'duration': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+            'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }

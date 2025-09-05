@@ -21,7 +21,7 @@
 <label for="">Filtrar Metas:</label>
 <div class="filter-main">
 <div class="filter-container">
-  <select id="projectFilter" class="filter-select form-select">
+  <select id="goalFilter" class="filter-select form-select">
     <option value="all">Todos</option>
     <option value="active">Em andamento</option>
     <option value="completed">Concluídos</option>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="filter-container">
-  <select id="projectFilter2" class="filter-select form-select">
+  <select id="goalFilter2" class="filter-select form-select">
   <option value="date-desc">Mais recentes</option>
   <option value="date-asc">Mais antigos</option>
   <option value="tasks-desc">Mais tasks</option>
@@ -39,39 +39,37 @@
 </div>
 
 <div class="filter-container">
-  <select id="projectFilter3" class="filter-select form-select">
+  <select id="goalFilter3" class="filter-select form-select">
   <option value="cards">Cards</option>
   <option value="lista">Lista</option>
 </select>
 </div>
-
-
 </div>
 </div>
 
-<a href="{% url 'new_meta' %}" class="btn">Adicionar Meta</a>
+<a href="{% url 'new_goal' %}" class="btn">Adicionar Meta</a>
 
 </div>
 
-<main class="main" id="projectsContainer">
-{% for meta in metas %}
+<main class="main" id="goalsContainer">
+{% for goal in goals %}
 <div class="card" 
-     data-status="{% if meta.deleted %}archived{% elif meta.completed %}completed{% else %}active{% endif %}"
-     data-tasks="{{ meta.meta_tasks.count }}"
-     data-date="{{ meta.date_added|date:'Y-m-d H:i:s' }}">
+     data-status="{% if goal.deleted %}archived{% elif goal.completed %}completed{% else %}active{% endif %}"
+     data-tasks="{{ goal.tasks.count }}"
+     data-date="{{ goal.date_added|date:'Y-m-d H:i:s' }}">
      
   <div class="card-header">
-    <h4>{{ meta.title }}</h4>
+    <h4>{{ goal.title }}</h4>
   </div>
 
   <div class="card-body">
-    <p class="card-text">{{ meta.description }}</p>
+    <p class="card-text">{{ goal.description }}</p>
     
     <div class="card-body-status">
-      <p><i class="bi bi-bullseye"></i> {{ meta.meta_tasks.count }} tasks</p>
-      {% if meta.completed %}
+      <p><i class="bi bi-bullseye"></i> {{ goal.tasks.count }} tasks</p>
+      {% if goal.completed %}
         <p><i class="bi bi-calendar-check"></i> Concluído</p>
-      {% elif meta.deleted %}
+      {% elif goal.deleted %}
         <p><i class="bi bi-archive"></i> Arquivado</p>
       {% else %}
         <p><i class="bi bi-calendar"></i> Em Andamento</p>
@@ -80,14 +78,14 @@
 
     <div class="card-body-status-button">
       <!-- Botão Detalhes sempre visível -->
-      <a href="{% url 'meta' meta.id %}" class="btn">
+      <a href="{% url 'goal' goal.id %}" class="btn">
         Detalhes <i class="bi bi-arrow-right-short"></i>
       </a>
 
       <div class="card-body-status_conclude-close">
         <!-- Concluir: só aparece se não concluído nem arquivado -->
-        {% if not meta.completed and not meta.deleted %}
-          <form action="{% url 'concluir_meta' meta.id %}" method="post">
+        {% if not goal.completed and not goal.deleted %}
+          <form action="{% url 'concluir_goal' goal.id %}" method="post">
             {% csrf_token %}
             <button class="btn-concluir" type="submit" title="Concluir Meta">
               <i class="bi bi-toggle-off"></i>
@@ -96,26 +94,26 @@
         {% endif %}
 
         <!-- Meta concluída -->
-        {% if meta.completed %}
-          <a href="{% url 'meta' meta.id %}" class="btn-concluido" title="Meta Concluída">
+        {% if goal.completed %}
+          <a href="{% url 'goal' goal.id %}" class="btn-concluido" title="Meta Concluída">
             <i class="bi bi-toggle-on"></i>
           </a>
         {% endif %}
 
         <!-- Arquivar: só se não arquivado -->
-        {% if not meta.deleted %}
+        {% if not goal.deleted %}
           <button class="btn-delete" 
                   data-bs-toggle="modal" 
                   data-bs-target="#confirmArchiveModal"
-                  data-url="{% url 'arquivar_meta' meta.id %}"
+                  data-url="{% url 'arquivar_goal' goal.id %}"
                   title="Arquivar Meta"> 
             <i class="bi bi-x-lg"></i>
           </button>
         {% endif %}
 
         <!-- Reativar: só se arquivado -->
-        {% if meta.deleted %}
-          <form action="{% url 'ativar_meta' meta.id %}" method="post" style="display:inline;">
+        {% if goal.deleted %}
+          <form action="{% url 'ativar_goal' goal.id %}" method="post" style="display:inline;">
             {% csrf_token %}
             <button class="btn-warning" type="submit" title="Reativar Meta">
               <i class="bi bi-arrow-counterclockwise"></i> 
@@ -130,7 +128,6 @@
 <p>Nenhuma Meta foi adicionada</p>
 {% endfor %}
 </main>
-
 
 <!-- Modal de confirmação de arquivamento -->
 <div class="modal fade" id="confirmArchiveModal" tabindex="-1" aria-labelledby="confirmArchiveLabel" aria-hidden="true">
