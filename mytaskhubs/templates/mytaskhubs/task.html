@@ -1,50 +1,82 @@
 {% extends "mytaskhubs/base.html" %}
 
 {% block content %}
-    <main class="main-task">
-    <div class="card-head-task">
-    <div class="card-head-task-child-1" data-prio="{{ task.prioridade }}">
+<main class="main-task">
+<div class="card-head-task">
+  <div class="card-head-task-child-1">
     <h3>{{ task.title }}</h3>
-    <div class="prioridade 
-     {% if task.prioridade == 'A' %} alta 
-     {% elif task.prioridade == 'M' %} media 
-     {% elif task.prioridade == 'B' %} baixa 
-     {% endif %}">
-    <p class="card-text"> Prioridade: {{ task.get_prioridade_display }}</p>
-    </div>
-    </div>
-    <p class="type-title">(Task)</p>
-    <div class="card-head-task-child-2">
-        <p><i class="bi bi-calendar"></i> {{ task.date_added }}</p>
-        <p><i class="bi bi-person"></i> {{ task.owner }}</p>
-    </div>
-    </div>
+  </div>
+  <p class="type-title">(task)</p>
+  <div class="card-head-task-child-2">
+      <p><i class="bi bi-calendar"></i> Criada em: {{ task.date_added|date:"d/m/Y H:i" }}</p>
+      <p><i class="bi bi-person"></i> {{ task.owner }}</p>
+      <p>{{ task.description }}</p>
+
+  </div>
+</div>
+
     
 
-    <div class="card-body-entry">
+<div class="card-body-entry">
     <div class="card-body-entry-child-1">
-    <h4>Anotações:</h4>
-    <a href="{% url 'new_entry' task.id %}" class="btn-entry" >Adicionar anotações</a>
+        <h4>Anotações:</h4>
+        <a href="{% url 'new_entry' task.id %}" class="btn-entry" >Adicionar anotações</a>
     </div>
     <ul class="list-entry">
-        
         {% for entry in entries %}
             <li class="entry">
-                <p>{{ entry.title | linebreaks }}</p><!--Quebra as linhas quando for necessário-->
-                <div class="card-body-entry-child-2">
-                <p><i class="bi bi-calendar"></i> {{ entry.date_added | date:'M d, Y H:i'}}</p><!--Formata a data -->
+            <p>{{ entry.title | linebreaks }}</p>
+            <div class="card-body-entry-child-2">
+                <p><i class="bi bi-calendar"></i> {{ entry.date_added | date:'d/m/Y H:i' }}</p>
                 <p><i class="bi bi-person"></i> {{ task.owner }}</p>
-                <a href="{% url 'edit_entry' entry.id %}"><i class="bi bi-pencil-square"></i> </a>
-                </div>
                 
+                <!-- Editar -->
+                <a href="{% url 'edit_entry' entry.id %}" title="Editar">
+                <i class="bi bi-pencil-square"></i>
+                </a>
+
+                <!-- Excluir -->
+                <button type="button" 
+                    class="btn-delete-entry" 
+                    title="Excluir"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmArchiveModal"
+                    data-entry-id="{{ entry.id }}"
+                    data-url="{% url 'delete_entry' entry.id %}">
+                <i class="bi bi-trash"></i>
+                </button>
+            </div>
             </li>
         {% empty %}
             <li>Não há entradas adicionadas.</li>
         {% endfor %}
-    </ul>
+        </ul>
+
     </div>
     </div>
     </div>
 </main>
 
+
+<!-- Modal de confirmação de arquivamento -->
+<div class="modal fade" id="confirmArchiveModal" tabindex="-1" aria-labelledby="confirmArchiveLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmArchiveLabel"><i class="bi bi-exclamation-triangle-fill"></i> Confirmar Ação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza que deseja deletar essa anotação?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form id="archiveForm" method="post" >
+            {% csrf_token %}
+            <button type="submit" class="btn-success">Sim, arquivar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

@@ -30,6 +30,11 @@ urlpatterns = [
     path('tasks/<int:task_id>/arquivar/', views.arquivar_task, name='arquivar_task'),
     path('projects/<int:project_id>/ativar/', views.ativar_project, name='ativar_project'),
     path('tasks/<int:task_id>/ativar/', views.ativar_task, name='ativar_task'),
+    path("update_task/<int:task_id>/", views.update_task, name="update_task"),
+
+    # Excluir anotação
+    path('delete_entry/<int:entry_id>/', views.delete_entry, name='delete_entry'),
+
 
     # Filtros e calendário
     path('tasks_concluidas/', views.tasks_concluidas, name='tasks_concluidas'),

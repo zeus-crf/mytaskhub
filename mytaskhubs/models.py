@@ -34,6 +34,9 @@ class Goal(models.Model):
     @property
     def is_expired(self):
         return self.end_date < timezone.now()
+    
+    def __str__(self):
+        return self.title  # Agora {{ goal }} mostra o título
 
 
 class Task(models.Model):

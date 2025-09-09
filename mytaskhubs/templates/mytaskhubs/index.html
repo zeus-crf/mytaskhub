@@ -51,7 +51,12 @@
         <a href="{% url 'goals' %}" class="dashboard_tasks">
             <div class="dashboard_tasks_2">
                 <h5>Metas</h5>
-                <h2>{{ metas }}</h2>
+                {% if goals == 0 %}
+                    <h4 style="color: black;">Sem metas</h4>
+                {% else %}
+                    <h2>{{ goals }}</h2>
+                {% endif %}
+                
             </div>
             <div class="dashboard_tasks_3">
                 <i class="bi bi-bullseye" style="color: blue; font-size: 2rem;"></i>
@@ -84,7 +89,5 @@
         {% endfor %}
     </ul>
 </section>
-
-<a href="{% url 'calendario_tasks' %}">ver calendário</a>
 
 {% endblock content %}

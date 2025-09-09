@@ -1,14 +1,12 @@
 {% extends "mytaskhubs/base.html" %}
-{% load static %}
 {% block content %}
-
-    <h2 class="titulo-pagina">Adicione Um Novo Projeto:</h2>
+      <h2 class="titulo-pagina">Adicione um nova task a meta {{goal}}:</h2>
     <main class="main_new_task-new_project">
-    <form action="{% url 'new_project' %}" class="form-new-task" method="post">
+    <form action="{% url 'add_task_to_goal' goal.id %}" class="form-new-task" method="post">
         {% csrf_token %}
-    <!-- Campo Título -->
+        <!-- Campo Título -->
     <div class="mb-3">
-      <label for="title" class="form-label">Novo Projeto:</label>
+      <label for="title" class="form-label">Nova Meta:</label>
       <input type="text" 
              name="title" 
              id="title" 
@@ -25,7 +23,7 @@
 
     <!-- Campo Descrição -->
     <div class="mb-3">
-      <label for="description" class="form-label">Descrição do Projeto:</label>
+      <label for="description" class="form-label">Descrição da Meta:</label>
       <textarea name="description" 
                 id="description" 
                 class="form-control {% if form.description.errors %}is-invalid{% endif %}" 
@@ -45,5 +43,4 @@
     </div>
     </form>
     </main>
-
-{% endblock content %}
+{% endblock %}

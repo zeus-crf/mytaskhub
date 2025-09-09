@@ -6,6 +6,12 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
 from django.db.models import Count
+import json
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+
+
+
 
 # ----------------------------
 # PÁGINA INICIAL / DASHBOARD
@@ -120,6 +126,19 @@ def new_entry(request, task_id):
         form = EntryForm()
 
     return render(request, 'mytaskhubs/new_entry.html', {'task': task, 'form': form})
+
+
+@login_required
+def delete_entry(request, entry_id):
+    entry = get_object_or_404(Entry, id=entry_id)
+    task_id = entry.task.id  # salva antes de apagar
+
+    entry.delete()
+    messages.success(request, f"A anotação '{entry.title}' foi excluída com sucesso!")
+
+    return redirect("task", task_id=task_id)
+
+   
 
 @login_required
 def edit_entry(request, entry_id):
@@ -307,3 +326,30 @@ def calendario_tasks_api(request):
             'url': reverse('task', args=[task.id]),
         })
     return JsonResponse(events, safe=False)
+
+@login_required
+@require_POST
+def update_task(request, task_id):
+    try:
+        data = json.loads(request.body)
+        task = get_object_or_404(Task, id=task_id)
+        task.completed = bool(data.get("completed", False))
+        task.save()
+
+        # Calcula progresso dinamicamente sem salvar no model
+        goal = task.goal
+        progress = 0
+        if goal:
+            total = goal.tasks.count()
+            done = goal.tasks.filter(completed=True).count()
+            progress = int((done / total) * 100) if total > 0 else 0
+
+        return JsonResponse({
+            "success": True,
+            "task_id": task.id,
+            "completed": task.completed,
+            "progress": progress
+        })
+
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500)

@@ -1,13 +1,17 @@
-.main-task{
+/* =======================
+   ESTILOS GERAIS
+   ======================= */
+
+.main-task {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 2rem;
-
 }
 
-.card-head-task, .card-body-entry{
+.card-head-task, 
+.card-body-entry {
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(0, 0, 0, 0.166);
@@ -17,60 +21,122 @@
     padding-bottom: 0.3rem;
 }
 
-.card-head-task-child-1, .card-body-entry-child-1{
+.head-goal {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.166);
+    border-radius: 8px;
+    width: 100%;
+    padding: 1rem;
+    padding-bottom: 0.3rem;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.porcentagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.porcentagem p {
+    color: rgba(0, 0, 0, 0.396);
+}
+
+.porcentagem h5 {
+    font-size: 2rem;
+}
+
+.card-head-task-child-1, 
+.card-body-entry-child-1 {
    display: flex;
    justify-content: space-between;
 }
 
-.card-head-task-child-1 h3{
+.card-head-task-child-1 h3 {
   font-family: "Poppins", sans-serif;
   font-weight: 500;    
-  
 }
 
-.card-head-task-child-2 p, .card-body-entry-child-2 p{
+.card-head-task-child-2, 
+.card-body-entry-child-2 {
+    display: flex;
+    align-items: center; /* alinhamento vertical */
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.card-head-task-child-2 p, 
+.card-body-entry-child-2 p {
     font-family: "Poppins", sans-serif;
     color: rgba(0, 0, 0, 0.396);
+    margin: 0;
+    font-size: 0.9rem;
 }
 
-.type-title{
+.type-title {
     color: rgba(0, 0, 0, 0.396);
 }
 
-.card-head-task-child-2, .card-body-entry-child-2{
-    display: flex;
-    gap: 1rem;
-}
-
-.list-entry{
+.list-entry {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.entry{
+.entry {
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(128, 128, 128, 0.304);
 }
 
-/**********************/
-/* PÁGINA DE PROJETO */
-/**********************/
-.body{
+/* =======================
+   PÁGINA DE PROJETO
+   ======================= */
+
+.body {
     display: flex;
     flex-direction: column;
 }
 
-.link-task{
+.link-task {
     text-decoration: none;
     color: inherit; 
 }
 
-
-
-.task-project{
+.task-project {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(128, 128, 128, 0.304);
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* =======================
+   BOTÃO DE EXCLUIR ANOTAÇÃO
+   ======================= */
+
+.btn-delete-entry, 
+.card-body-entry-child-2 a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-delete-entry {
+    background: none;
+    border: none;
+    color: crimson;
+}
+
+.btn-delete-entry:hover {
+    color: darkred;
 }

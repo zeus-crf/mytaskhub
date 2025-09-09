@@ -1,18 +1,36 @@
 {% extends "mytaskhubs/base.html" %}
 
 {% block content %}
-  <h2>{{ goal.title }}</h2>
-  <p>{{ goal.description }}</p>
-  <p><strong>Prazo final:</strong> {{ goal.end_date|date:"d/m/Y H:i" }}</p>
+<main class="main-task">
+  <div class="goal-card">
+    <!-- Cabeçalho do Card -->
+    <div class="goal-header">
+      <div>
+        <h2>{{ goal.title }}</h2>
+        <p class="goal-description">{{ goal.description }}</p>
+        <p class="goal-deadline">
+          <i class="bi bi-calendar"></i> Prazo final: {{ goal.end_date|date:"d/m/Y H:i" }}
+        </p>
+      </div>
 
-  <!-- Formulário para marcar tarefas como concluídas -->
-  <form method="post" action="{% url 'goal' goal.id %}">
+      <!-- Esfera de Progresso -->
+      <div class="progress-circle-large" data-progress="{{ goal.progress }}">
+        <!--<span id="circleProgress">{{ goal.progress }}%</span>-->
+      </div>
+    </div>
+
+    <!-- Lista de tarefas -->
+      <form id="taskForm">
     {% csrf_token %}
-    <ul style="list-style: none; padding: 0;">
+    <ul class="goal-task-list">
       {% for task in goal.tasks.all %}
-        <li style="margin-bottom: 8px;">
-          <label>
-            <input type="checkbox" name="task_{{ task.id }}" {% if task.completed %}checked{% endif %} onchange="this.form.submit()">
+        <li>
+          <label class="custom-checkbox">
+            <input type="checkbox" 
+                  class="task-checkbox"
+                  data-task-id="{{ task.id }}"
+                  {% if task.completed %}checked{% endif %}>
+            <span class="checkmark"></span>
             {{ task.title }}
           </label>
         </li>
@@ -22,12 +40,18 @@
     </ul>
   </form>
 
-  <h4>Progresso:</h4>
-  <div style="margin-bottom: 10px;">
-    <progress value="{{ goal.progress }}" max="100" style="width: 100%; height: 20px;"></progress>
-    <p>{{ goal.progress }}% concluído</p>
+
+    <!-- Barra de progresso horizontal -->
+     <p> Progresso: <span id="barProgress">0%</span></p>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="taskProgressBar" data-progress="0"></div>
+    </div>
+    
+
+    <!-- Botão -->
+    <div class="goal-actions">
+      <a class="btn-goals" href="{% url 'add_task_to_goal' goal.id %}"><i class="bi bi-plus"></i> Adicionar nova task</a>
+    </div>
   </div>
-
-  <a href="{% url 'add_task_to_goal' goal.id %}">Adicionar nova task</a>
-
+</main>
 {% endblock %}
