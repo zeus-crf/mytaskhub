@@ -4,8 +4,55 @@
 <h2>Calendário de Tasks</h2>
 <div id="calendar"></div>
 
-<!-- FullCalendar -->
+<!-- FullCalendar CSS -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+/* Botão de adicionar task */
+.add-task-btn {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: linear-gradient(135deg, #6C63FF, #857FFF);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: all 0.25s ease;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.fc-daygrid-day:hover .add-task-btn {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.add-task-btn:hover {
+  background: linear-gradient(135deg, #5A52E0, #736BFF);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transform: scale(1.1);
+}
+
+.fc-daygrid-day {
+  position: relative; 
+}
+</style>
+
+<!-- FullCalendar JS -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
 <script>
@@ -23,18 +70,31 @@ document.addEventListener('DOMContentLoaded', function() {
             list: 'Lista'
         },
         events: '/api/calendario_tasks/',
-        eventClick: function(info) {  // corrigido aqui: eventClick
+
+        dayCellDidMount: function(info) {
+            let btn = document.createElement("button");
+            btn.classList.add("add-task-btn");
+            btn.innerHTML = '<i class="bi bi-plus"></i>';
+
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                let date = info.date.toISOString().split("T")[0];
+                window.location.href = `/new_task/?data=${date}`;
+            };
+
+            info.el.appendChild(btn);
+        },
+
+        eventClick: function(info) {
             if (info.event.url) {
-                window.location.href = info.event.url;  // abre em nova aba
-                info.jsEvent.preventDefault();         // previne navegação padrão
+                window.location.href = info.event.url;
+                info.jsEvent.preventDefault();
             }
         }
     });
 
     calendar.render();
 });
-
 </script>
-
 
 {% endblock %}

@@ -9,8 +9,7 @@ from django.db.models import Count
 import json
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-
-
+from datetime import datetime
 
 
 # ----------------------------
@@ -57,6 +56,15 @@ def new_task(request, project_id=None):
         if project.owner != request.user:
             raise Http404
 
+    # Captura data da query string
+    data_inicial = request.GET.get('data')
+    data_obj = None
+    if data_inicial:
+        try:
+            data_obj = datetime.strptime(data_inicial, '%Y-%m-%d').date()
+        except ValueError:
+            data_obj = None
+
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -69,9 +77,13 @@ def new_task(request, project_id=None):
                 return redirect('project', project_id=project.id)
             return redirect('tasks')
     else:
-        form = TaskForm()
+        form = TaskForm(initial={'date': data_obj})
 
-    return render(request, 'mytaskhubs/new_task.html', {'form': form, 'project': project})
+    return render(request, 'mytaskhubs/new_task.html', {
+        'form': form,
+        'project': project,
+        'data_inicial': data_obj
+    })
 
 @login_required
 def new_task_no_project(request):
@@ -105,6 +117,8 @@ def ativar_task(request, task_id):
         task.save()
         messages.success(request, f"A task '{task.title}' foi reativada com sucesso!")
     return redirect('tasks')
+
+
 
 # ----------------------------
 # ENTRIES
@@ -311,21 +325,24 @@ def tasks_pendentes(request):
 
 @login_required
 def calendario_tasks(request):
-    return render(request, "mytaskhubs/calendario_tasks.html")
+    # Renderiza a página do calendário
+    return render(request, 'mytaskhubs/calendario_tasks.html')
 
 @login_required
 def calendario_tasks_api(request):
-    tasks = Task.objects.filter(owner=request.user)
+    tasks = Task.objects.filter(owner=request.user, deleted=False)
     events = []
     for task in tasks:
-        events.append({
-            "id": task.id,
-            "title": task.title,
-            "start": task.date_added.strftime("%Y-%m-%d"),
-            "color": "#4CAF50" if task.completed else "#FF9800",
-            'url': reverse('task', args=[task.id]),
-        })
+        task_date = getattr(task, 'date_added', None)  # substitua por 'due_date' se tiver
+        if task_date:
+            events.append({
+                "title": task.title,
+                "start": task_date.strftime("%Y-%m-%d"),
+                "url": f"/task/{task.id}/",
+                "color": "#4CAF50" if task.completed else "#FFC107"  # verde se concluída, amarelo se pendente
+            })
     return JsonResponse(events, safe=False)
+
 
 @login_required
 @require_POST

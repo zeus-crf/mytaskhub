@@ -1,0 +1,11 @@
+
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    <label>Data:</label>
+    <input type="date" name="data" value="{{ data_inicial }}">
+    <input type="text" name="titulo" placeholder="Título da task">
+    <button type="submit">Criar Task</button>
+</form>

@@ -5,6 +5,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-bottom: 20px;
     width: 90%;
+    border: 1px solid #6666664d;
     }
 
     .goal-header {
@@ -223,7 +224,6 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-
     font-size: 1rem;
     border-radius: 12px;
     text-decoration: none;

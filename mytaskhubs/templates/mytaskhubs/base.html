@@ -178,8 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
       </a>
 
       <a href="{% url 'goals' %}" 
-         class="{% if request.resolver_match.url_name == 'metas' %}active{% endif %}">
+         class="{% if request.resolver_match.url_name == 'goals' %}active{% endif %}">
         <i class="bi bi-bullseye"></i> Metas
+      </a>
+
+      <a href="{% url 'calendario_tasks' %}" 
+         class="{% if request.resolver_match.url_name == 'calendario_tasks' %}active{% endif %}">
+        <i class="bi bi-calendar"></i> Calendário
       </a>
     </div>
 
